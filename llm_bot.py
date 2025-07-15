@@ -28,9 +28,10 @@ intents.guilds = True
 
 bot = commands.Bot(command_prefix='!', intents=intents) # Your bot's prefix
 
-# Event: Bot is ready
+
 @bot.event
 async def on_ready():
+    """Event: Bot is ready"""
     print(f'{bot.user} has connected to Discord!')
     print(f'Logged in as {bot.user.name} ({bot.user.id})')
     # You can set the bot's activity here, e.g.,
@@ -50,15 +51,16 @@ async def ping(ctx):
 
 @bot.event
 async def on_command_error(ctx, error):# pylint: disable=unused-argument
-
+    """print error messages"""
     print(f'Error: {error}')
 
 @bot.event
 async def on_message(message):
+    """print useful information about received messages"""
     print(f"Received message: {message.content}")
     print(f"From user: {message.author} in channel: {message.channel} (Guild: {message.guild})")
     # Critical: allows command decorators like @bot.command to still work
-    await bot.process_commands(message)  
+    await bot.process_commands(message)
 
 # Run the bot
 bot.run(TOKEN)
