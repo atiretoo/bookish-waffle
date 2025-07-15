@@ -11,12 +11,10 @@ TOKEN = os.getenv('DISCORD_BOT_TOKEN') # This should match what you put in .env
 # Define intents (important!)
 # Define specific intents
 # Set all intents to False by default, then enable the ones you need
-intents = discord.Intents.none() # Start with no intents enabled
+intents = discord.Intents.default() # Start with no intents enabled
 
 # Guilds intent is necessary for most bots to even function on servers
 # (e.g., to know which server the message came from)
-intents.guilds = True
-
 # Message content intent is crucial if your bot reads message content
 # (e.g., for prefix commands, or reacting to keywords)
 intents.message_content = True
