@@ -1,0 +1,6 @@
+{
+    "python.pythonPath": ".venv\\Scripts\\python.exe", // Use .venv\\Scripts\\python.exe on Windows
+    "python.formatting.provider": "black",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
+  }
