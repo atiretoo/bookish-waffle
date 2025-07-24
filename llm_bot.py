@@ -1,10 +1,10 @@
 """Discord bot for robotics integration and command handling."""
 import os
+import asyncio
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 import google.generativeai as genai
-import asyncio 
 
 # Load environment variables from .env file
 load_dotenv()
@@ -55,11 +55,12 @@ async def on_ready():
     # You can set the bot's activity here, e.g.,
     await bot.change_presence(activity=discord.Game(name="with robots!"))
  # --- Call the model listing function here ---
-    await list_gemini_models() 
+    await list_gemini_models()
 
     # --- IMPORTANT: Update your model name here based on the output of list_gemini_models() ---
     # For example, if list_gemini_models() prints "models/gemini-1.5-flash", use that.
-    # A common and stable model that supports generateContent is often 'gemini-1.5-pro' or 'gemini-1.5-flash'
+    # A common and stable model that supports generateContent is often 'gemini-1.5-pro'
+    # or 'gemini-1.5-flash'
     global model
     try:
         # Prioritize 'gemini-1.5-pro' if available, otherwise try 'gemini-1.5-flash'
@@ -73,12 +74,12 @@ async def on_ready():
                 elif m.name == 'models/gemini-1.5-flash':
                     model_name_to_use = 'gemini-1.5-flash'
                     # Don't break yet, still prefer pro if it appears later
-        
         if model_name_to_use:
             model = genai.GenerativeModel(model_name_to_use)
             print(f"Using Gemini model: {model_name_to_use}")
         else:
-            #print("No suitable Gemini model found that supports 'generateContent'. Please check your API key and region.")
+            #print("No suitable Gemini model found that supports 'generateContent'.
+            # Please check your API key and region.")
             # Optionally, you can raise an error or disable the !ask command here
             raise ValueError("No suitable Gemini model found.")
 
@@ -160,7 +161,6 @@ async def ask_gemini(ctx, *, question: str):
                     safety_issues.append(f"{rating.category.name}: BLOCKED (Threshold: {rating.threshold.name})")
                 elif rating.probability > rating.threshold: # If it's over threshold but not blocked (unlikely for blocked responses but good check)
                     safety_issues.append(f"{rating.category.name}: {rating.probability.name} (Threshold: {rating.threshold.name})")
-            
             if safety_issues:
                 await ctx.send(
                     f"My response was blocked due to safety concerns. "
@@ -182,7 +182,6 @@ async def ask_gemini(ctx, *, question: str):
         else:
             await ctx.send(f"An error occurred while communicating with Gemini: {e}")
             print(f"Gemini API Error: {e}") # Log the full error for debugging
-            
 # Run the bot
 if TOKEN is None:
     raise ValueError("DISCORD_BOT_TOKEN not found in environment variables.")
